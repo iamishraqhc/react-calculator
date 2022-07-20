@@ -16,6 +16,11 @@ function App() {
       setPreState("");
     }
 
+    if (curState === "0") {
+      setInput(e.target.innerText);
+      setCurState("");
+    }
+
     curState
       ? setCurState((pre) => pre + e.target.innerText)
       : setCurState(e.target.innerText);
@@ -45,27 +50,14 @@ function App() {
     if (e?.target.innerText === "=") {
       setTotal(true);
     }
-    let cal;
-    switch (operator) {
-      case "/":
-        cal = String(parseFloat(preState) / parseFloat(curState));
-        break;
+    let cal = operator !== null 
+    ? String(eval(preState + operator + curState)) 
+    : String(curState);
 
-      case "+":
-        cal = String(parseFloat(preState) + parseFloat(curState));
-        break;
-      case "X":
-        cal = String(parseFloat(preState) * parseFloat(curState));
-        break;
-      case "-":
-        cal = String(parseFloat(preState) - parseFloat(curState));
-        break;
-      default:
-        return;
-    }
     setInput("");
     setPreState(cal);
     setCurState("");
+    setOperator(null);
   };
 
   const minusPlus = () => {
@@ -83,9 +75,14 @@ function App() {
   };
 
   const reset = () => {
-    setPreState("");
-    setCurState("");
-    setInput("0");
+    if (curState !== "" ) {
+      setCurState("0");
+      setInput("0");
+    } else {
+      setPreState("");
+      setCurState("");
+      setInput("0");
+    }
   };
   return (
     <div className='container'>
@@ -127,7 +124,7 @@ function App() {
           9
         </div>
         <div className='btn orange' onClick={operatorType}>
-          X
+          *
         </div>
         <div className='btn' onClick={inputNum}>
           4
