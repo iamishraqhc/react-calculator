@@ -51,8 +51,8 @@ function App() {
       setTotal(true);
     }
     let cal = operator !== null 
-    ? String(eval(preState + operator + curState)) 
-    : String(curState);
+    ? String(eval(preState + operator + curState).toFixed(2)) 
+    : String(parseFloat(curState).toFixed(2));
 
     setInput("");
     setPreState(cal);
